@@ -1,13 +1,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /app
 
 COPY . .
-WORKDIR /src/KutuphaneTakip
-RUN dotnet publish -c Release -o /app/out
+
+WORKDIR /app/KutuphaneTakip
+RUN dotnet restore
+RUN dotnet publish -c Release -o /publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/out .
+
+COPY --from=build /publish .
 
 EXPOSE 8080
-ENTRYPOINT ["dotnet", "KutuphaneTakip.dll"]
+
+ENTRYPOINT ["dotnet","KutuphaneTakip.dll"]
