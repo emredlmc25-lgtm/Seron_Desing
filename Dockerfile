@@ -14,4 +14,4 @@ COPY --from=build /publish .
 
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet","KutuphaneTakip.dll"]
+ENTRYPOINT ["dotnet","SeronDesign.dll"]
