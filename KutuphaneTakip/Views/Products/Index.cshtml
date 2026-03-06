@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SeronDesign.Models.Product>
+
+@{
+    ViewData["Title"] = "Ürünler";
+}
+
+<section class="py-4 py-lg-5">
+    <div class="container">
+        <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2 fw-bold mb-1">Ürün Kataloğu</h1>
+                <p class="text-body-secondary mb-0">Marka ve günlük kullanım için tasarlanan ürünler.</p>
+            </div>
+            <a asp-action="Create" class="btn btn-brand">Yeni Ürün Ekle</a>
+        </div>
+
+        @if (!Model.Any()) {
+            <div class="alert alert-info rounded-3">Katalogda henüz ürün bulunmuyor.</div>
+        } else {
+            <div class="table-responsive card p-2">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Açıklama</th>
+                            <th>Fiyat</th>
+                            <th>Kategori</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var product in Model) {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="@Url.Content("~/images/" + (product.ImageName != null ? Uri.EscapeDataString(product.ImageName) : "placeholder.png"))" alt="@product.Name" style="width:44px;height:44px;border-radius:10px;object-fit:cover;" />
+                                    <span class="fw-semibold">@product.Name</span>
+                                </div>
+                            </td>
+                            <td class="text-body-secondary">@product.Description</td>
+                            <td><strong>@product.Price.ToString("C")</strong></td>
+                            <td><span class="badge text-bg-light border">@(product.Category?.Name ?? "Kategori yok")</span></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Seron Design</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SeronDesign.styles.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+@{
+    var currentController = (ViewContext.RouteData.Values["controller"]?.ToString()) ?? string.Empty;
+}
+
+<div id="appShell" class="app-shell">
+    <aside class="side-nav" id="sideNav">
+        <div class="side-nav-header">
+            <a class="brand-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark">SD</span>
+                <span class="side-link-text">Seron Design</span>
+            </a>
+        </div>
+
+        <nav class="side-menu" aria-label="Ana Menü">
+            <a class="side-link @(currentController == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
+                <span class="side-link-icon">A</span>
+                <span class="side-link-text">Ana Sayfa</span>
+            </a>
+            <a class="side-link @(currentController == "Toys" ? "active" : "")" asp-area="" asp-controller="Toys" asp-action="Index">
+                <span class="side-link-icon">O</span>
+                <span class="side-link-text">Oyuncaklar</span>
+            </a>
+            <a class="side-link @(currentController == "Products" ? "active" : "")" asp-area="" asp-controller="Products" asp-action="Index">
+                <span class="side-link-icon">U</span>
+                <span class="side-link-text">Ürünler</span>
+            </a>
+            <a class="side-link @(currentController == "CustomDesigns" ? "active" : "")" asp-area="" asp-controller="CustomDesigns" asp-action="Index">
+                <span class="side-link-icon">T</span>
+                <span class="side-link-text">Özel Tasarımlar</span>
+            </a>
+            <a class="side-link @(currentController == "Contact" ? "active" : "")" asp-area="" asp-controller="Contact" asp-action="Index">
+                <span class="side-link-icon">I</span>
+                <span class="side-link-text">İletişim</span>
+            </a>
+        </nav>
+
+        <a class="btn btn-brand side-cta" asp-area="" asp-controller="CustomDesigns" asp-action="Create">
+            <span class="side-link-text">Talep Oluştur</span>
+            <span class="side-link-icon">+</span>
+        </a>
+    </aside>
+
+    <div class="side-overlay" id="sideOverlay"></div>
+
+    <div class="app-content">
+        <header class="content-topbar">
+            <button id="sidebarToggle" class="btn btn-outline-brand sidebar-toggle" type="button" aria-label="Menüyü Aç/Kapat">
+                Menü
+            </button>
+            <span class="topbar-title">@ViewData["Title"]</span>
+        </header>
+
+        <main class="pb-4">
+            @RenderBody()
+        </main>
+
+        <footer class="site-footer mt-5">
+            <div class="container py-5">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <h5 class="footer-title">Seron Design</h5>
+                        <p class="footer-text">Özel oyuncaklar, işlevsel ürünler ve markaya özel tasarımlar üretiyoruz.</p>
+                    </div>
+                    <div class="col-6 col-lg-4">
+                        <h6 class="footer-title">Hızlı Linkler</h6>
+                        <ul class="list-unstyled footer-links">
+                            <li><a href="@Url.Action("Index", "Home")">Ana Sayfa</a></li>
+                            <li><a href="@Url.Action("Index", "Toys")">Oyuncaklar</a></li>
+                            <li><a href="@Url.Action("Index", "Products")">Ürünler</a></li>
+                            <li><a href="@Url.Action("Index", "CustomDesigns")">Özel Tasarımlar</a></li>
+                            <li><a href="@Url.Action("Index", "Contact")">İletişim</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-lg-4">
+                        <h6 class="footer-title">İletişim</h6>
+                        <p class="footer-text mb-1">E-posta: info@serondesign.com</p>
+                        <p class="footer-text mb-0">Telefon: +1 234 567 890</p>
+                    </div>
+                </div>
+                <hr class="footer-divider" />
+                <p class="footer-copy mb-0">&copy; 2026 Seron Design. Tüm hakları saklıdır.</p>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Script", required: false)
+
+</body>
+</html>

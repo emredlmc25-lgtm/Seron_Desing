@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>SeronDesign</AssemblyName>
+    <RootNamespace>SeronDesign</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkcore" Version="7.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkcore.SqlServer" Version="7.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkcore.tools" Version="7.0.20">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20" />
+  </ItemGroup>
+
+</Project>
