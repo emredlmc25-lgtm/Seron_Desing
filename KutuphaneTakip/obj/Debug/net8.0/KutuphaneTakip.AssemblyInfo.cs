@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SeronDesign")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4d76dd39ee53cb3f0a2250933b97c61e1c3cfbb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56069c7e2c17dbb1ff1824756d916ced3673280b")]
 [assembly: System.Reflection.AssemblyProductAttribute("SeronDesign")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SeronDesign")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
