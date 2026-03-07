@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SeronDesign.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,27 +16,42 @@ namespace SeronDesign.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var toys = await _context.Toys.Include(t => t.Category).ToListAsync();
+            var toys = await _context.Toys
+                .Include(t => t.Category)
+                .AsNoTracking()
+                .ToListAsync();
             return View(toys);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = _context.Categories.ToList();
+            await LoadCategoriesAsync();
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Toy toy)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(toy);
+                _context.Toys.Add(toy);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Categories = _context.Categories.ToList();
+
+            await LoadCategoriesAsync(toy.CategoryId);
             return View(toy);
+        }
+
+        private async Task LoadCategoriesAsync(int? selectedCategoryId = null)
+        {
+            var categories = await _context.Categories
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", selectedCategoryId);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SeronDesign.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,18 +18,20 @@ namespace SeronDesign.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.Category)
+                .AsNoTracking()
                 .ToListAsync();
 
             return View(products);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = _context.Categories.ToList();
+            await LoadCategoriesAsync();
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
@@ -38,8 +41,18 @@ namespace SeronDesign.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Categories = _context.Categories.ToList();
+            await LoadCategoriesAsync(product.CategoryId);
             return View(product);
+        }
+
+        private async Task LoadCategoriesAsync(int? selectedCategoryId = null)
+        {
+            var categories = await _context.Categories
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", selectedCategoryId);
         }
     }
 }

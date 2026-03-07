@@ -1,26 +1,19 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace SeronDesign.Models
 {
     public class Product
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Ürün adı gerekli.")]
-        [Display(Name = "İsim")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        [Display(Name = "Açıklama")]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-        [Display(Name = "Resim Dosyası")]
-        public string ImageName { get; set; }
+        public string ImageName { get; set; } = string.Empty;
 
-        [Display(Name = "Fiyat")]
         public decimal Price { get; set; }
 
-        [Display(Name = "Kategori")]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+
+        public Category Category { get; set; } = null!;
     }
 }
