@@ -21,11 +21,9 @@
     </section>
 
     <script type="module">
-        // Firebase kütüphanelerini internetten çağırıyoruz
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Senin kopyaladığın o özel config bilgileri:
         const firebaseConfig = {
             apiKey: "AIzaSyDljYJxxkrRC9xeR5r8pMPtTlM86-Ikzcw",
             authDomain: "benim-site-ac2a1.firebaseapp.com",
@@ -36,7 +34,6 @@
             measurementId: "G-08XX0RV0K8"
         };
 
-        // Firebase ve Veritabanını (Firestore) başlat
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
@@ -44,29 +41,30 @@
             const container = document.getElementById("haberler");
             
             try {
-                // Firebase'deki koleksiyonun adını "Haberler" olarak okuyoruz
-                const querySnapshot = await getDocs(collection(db, "Haberler"));
-                container.innerHTML = ""; // Yükleniyor yazısını sil
+                // KOLEKSİYON ADINI SENİN YAPTIĞIN GİBİ "News" YAPTIK
+                const querySnapshot = await getDocs(collection(db, "News"));
+                container.innerHTML = ""; 
 
                 if (querySnapshot.empty) {
-                    container.innerHTML = "Henüz haber eklenmemiş. Firebase'den veri girmen lazım!";
+                    container.innerHTML = "Veri bulunamadı!";
                     return;
                 }
 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
+                    // ALAN ADLARINI SENİN YAPTIĞIN GİBİ "title", "content", "image" YAPTIK
                     container.innerHTML += `
                         <div class="haber-kart">
-                            <h3>${data.başlık || 'Başlık Yok'}</h3>
-                            <p>${data.içerik || 'İçerik Yok'}</p>
-                            ${data.resim ? `<img src="${data.resim}">` : ''}
+                            <h3>${data.title || 'Başlık Yok'}</h3>
+                            <p>${data.content || 'İçerik Yok'}</p>
+                            ${data.image ? `<img src="${data.image}">` : ''}
                         </div>
                     `;
                 });
 
             } catch (error) {
                 console.error("Hata:", error);
-                container.innerHTML = "Hata oluştu! Firebase kurallarını (Rules) kontrol et.";
+                container.innerHTML = "Hata oluştu! Firebase Kurallarını (Rules) 'true' yapmayı unutma.";
             }
         }
 
