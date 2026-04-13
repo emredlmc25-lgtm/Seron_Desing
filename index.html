@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Seron Design</title>
+</head>
+<body>
+
+<h1>Seron Design</h1>
+
+<section>
+  <h2>Haberler</h2>
+  <div id="haberler"></div>
+</section>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "BURAYA",
+    authDomain: "BURAYA",
+    projectId: "BURAYA",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function getData() {
+    const querySnapshot = await getDocs(collection(db, "Haberler"));
+    const container = document.getElementById("haberler");
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      container.innerHTML += `
+        <div style="border:1px solid black; padding:10px; margin:10px;">
+          <h3>${data.başlık}</h3>
+          <p>${data.içerik}</p>
+          <img src="${data.resim}" width="200">
+        </div>
+      `;
+    });
+  }
+
+  getData();
+</script>
+
+</body>
+</html>
