@@ -1,50 +1,77 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Seron Design</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seron Design - Haberler</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; }
+        .haber-kart { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: white; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .haber-kart h3 { margin-top: 0; color: #333; }
+        .haber-kart img { max-width: 100%; height: auto; border-radius: 4px; display: block; margin-top: 10px; }
+    </style>
 </head>
 <body>
 
-<h1>Seron Design</h1>
+    <h1>Seron Design</h1>
 
-<section>
-  <h2>Haberler</h2>
-  <div id="haberler"></div>
-</section>
+    <section>
+        <h2>Haberler</h2>
+        <div id="haberler">Yükleniyor...</div>
+    </section>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <script type="module">
+        // Firebase kütüphanelerini internetten çağırıyoruz
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "BURAYA",
-    authDomain: "BURAYA",
-    projectId: "BURAYA",
-  };
+        // Senin kopyaladığın o özel config bilgileri:
+        const firebaseConfig = {
+            apiKey: "AIzaSyDljYJxxkrRC9xeR5r8pMPtTlM86-Ikzcw",
+            authDomain: "benim-site-ac2a1.firebaseapp.com",
+            projectId: "benim-site-ac2a1",
+            storageBucket: "benim-site-ac2a1.firebasestorage.app",
+            messagingSenderId: "718108834865",
+            appId: "1:718108834865:web:49352cd0127dafc0cea910",
+            measurementId: "G-08XX0RV0K8"
+        };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+        // Firebase ve Veritabanını (Firestore) başlat
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-  async function getData() {
-    const querySnapshot = await getDocs(collection(db, "Haberler"));
-    const container = document.getElementById("haberler");
+        async function haberleriGetir() {
+            const container = document.getElementById("haberler");
+            
+            try {
+                // Firebase'deki koleksiyonun adını "Haberler" olarak okuyoruz
+                const querySnapshot = await getDocs(collection(db, "Haberler"));
+                container.innerHTML = ""; // Yükleniyor yazısını sil
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
+                if (querySnapshot.empty) {
+                    container.innerHTML = "Henüz haber eklenmemiş. Firebase'den veri girmen lazım!";
+                    return;
+                }
 
-      container.innerHTML += `
-        <div style="border:1px solid black; padding:10px; margin:10px;">
-          <h3>${data.başlık}</h3>
-          <p>${data.içerik}</p>
-          <img src="${data.resim}" width="200">
-        </div>
-      `;
-    });
-  }
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    container.innerHTML += `
+                        <div class="haber-kart">
+                            <h3>${data.başlık || 'Başlık Yok'}</h3>
+                            <p>${data.içerik || 'İçerik Yok'}</p>
+                            ${data.resim ? `<img src="${data.resim}">` : ''}
+                        </div>
+                    `;
+                });
 
-  getData();
-</script>
+            } catch (error) {
+                console.error("Hata:", error);
+                container.innerHTML = "Hata oluştu! Firebase kurallarını (Rules) kontrol et.";
+            }
+        }
+
+        haberleriGetir();
+    </script>
 
 </body>
 </html>
